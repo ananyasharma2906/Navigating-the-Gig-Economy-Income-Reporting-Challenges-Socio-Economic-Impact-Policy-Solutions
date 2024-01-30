@@ -1,0 +1,36 @@
+---
+title: "Final Results"
+author: "Ananya Sharma"
+date: "12/10/2023"
+output: pdf_document
+---
+```{r}
+library(readxl)
+df <- read_excel("final_ism.xlsx")
+str(df)
+library(plm)
+df$Country <- as.factor(df$Country)
+df$Year <- as.factor(df$Year)
+panel_data <- pdata.frame(df, index = c("Country", "Year"))
+panel_model <- plm(SE ~ UHI + GDP + UR + INF + LFP + EDU + SR + TR + HE, data = panel_data, model = "within")
+summary(panel_model)
+
+```
+
+```
+```{r}
+library(ggplot2)
+ggplot(df, aes(x = Country, y = GDP)) +
+  geom_bar(stat = "identity") +
+  labs(title = "GDP Across Countries", x = "Country", y = "GDP")
+```
+
+`
+```{r}
+library(dplyr)
+library(ggplot2)
+asia_df <- df %>%
+  filter(Continent == "Asia")
+
+```
+
